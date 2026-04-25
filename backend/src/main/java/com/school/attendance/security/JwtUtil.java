@@ -16,10 +16,10 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     
-    @Value("${jwt.secret:mySecretKey}")
+    @Value("${app.jwt.secret:AttendanceApp-JWT-Secret-Key-Min32Chars!}")
     private String secret;
     
-    @Value("${jwt.expiration:86400000}") // 24 hours in milliseconds
+    @Value("${app.jwt.expiration:86400000}") // 24 hours in milliseconds
     private Long expiration;
     
     private SecretKey getSigningKey() {
