@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # School Attendance Management System
 
 A comprehensive school attendance management system built with Spring Boot (backend) and React (frontend), featuring email and SMS notifications, Docker containerization, and CI/CD pipelines.
@@ -661,3 +662,7 @@ Key responsive features:
 ## 📄 License
 
 This project is licensed under the MIT License.
+=======
+# StudentAttendance
+An elegant web app to manage student attendance
+>>>>>>> 2965d400d65663761efd008241a0bef912cbd5f9

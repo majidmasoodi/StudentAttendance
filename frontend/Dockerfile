@@ -1,5 +1,5 @@
 # Multi-stage build for React application
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force   
 
 # Copy source code
 COPY . .
@@ -23,8 +23,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built React app from builder stage
-COPY --from=builder /app/build /usr/share/nginx/html
-
+COPY --from=builder /app/dist /usr/share/nginx/html   
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -35,6 +34,9 @@ RUN addgroup -g 1001 -S nginx-group && \
     chown -R nginx-user:nginx-group /var/cache/nginx && \
     chown -R nginx-user:nginx-group /var/log/nginx && \
     chown -R nginx-user:nginx-group /etc/nginx/conf.d
+
+# Create directory for nginx PID file and give permissions
+RUN mkdir -p /var/run/nginx && chown nginx-user:nginx-group /var/run/nginx   
 
 # Switch to nginx user
 USER nginx-user

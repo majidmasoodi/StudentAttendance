@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot application
-FROM openjdk:17-jdk-alpine AS builder
+FROM eclipse-temurin:17-jdk-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -9,8 +9,10 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
+RUN chmod +x ./mvnw
 # Download dependencies (this layer will be cached if pom.xml doesn't change)
 RUN ./mvnw dependency:go-offline -B
+
 
 # Copy source code
 COPY src src
@@ -20,11 +22,13 @@ RUN ./mvnw clean package -DskipTests
 RUN mv target/attendance-*.jar target/attendance.jar
 
 # Runtime stage
-FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-alpine
 
 # Create app user for security
 RUN addgroup -g 1001 -S appgroup && \
     adduser -u 1001 -S appuser -G appgroup
+
+RUN mkdir -p /app/logs && chown -R appuser:appgroup /app/logs   
 
 # Set working directory
 WORKDIR /app
