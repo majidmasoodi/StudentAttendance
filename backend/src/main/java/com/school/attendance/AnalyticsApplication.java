@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {
     org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class,
-    org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class,
-    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+    org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class
 })
 @ComponentScan(basePackages = {
     "com.school.attendance.controller", 
