@@ -53,7 +53,9 @@ public class AuthController {
         }
 
         User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new IllegalStateException("User not found after authentication"));
+                .orElseThrow(() -> new IllegalStateException(
+                        "Authentication succeeded but user record could not be retrieved for: "
+                        + loginRequest.getUsername()));
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name(), user.getId());
 

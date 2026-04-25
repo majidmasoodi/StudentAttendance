@@ -23,13 +23,13 @@ public class UserService implements UserDetailsService {
         com.school.attendance.entity.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        if (!user.getIsActive()) {
-            throw new UsernameNotFoundException("User account is disabled: " + username);
-        }
-
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
+                user.getIsActive(),  // enabled – Spring throws DisabledException if false
+                true,
+                true,
+                true,
                 List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
         );
     }
